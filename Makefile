@@ -7,7 +7,7 @@ TARGET = $(BUILD_DIR)/yolo_c
 SRCS = $(shell find $(SRC_DIR) -name "*.c")
 OBJS = $(addprefix $(BUILD_DIR)/,$(notdir $(SRCS:.c=.o)))
 
-CFLAGS += -I $(INCLUDE_DIR)
+CFLAGS += -I $(INCLUDE_DIR) -g
 
 compile: $(TARGET)
 
@@ -26,8 +26,11 @@ $(BUILD_DIR)/%.d : $(SRC_DIR)/%.c
 $(BUILD_DIR)/%.o : $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-run:
+run: $(TARGET)
 	$(TARGET)
+
+gdb: $(TARGET)
+	gdb $(TARGET)
 
 clean:
 	-rm -r $(BUILD_DIR)
